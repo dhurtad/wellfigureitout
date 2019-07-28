@@ -33,7 +33,8 @@ CLASS LEGEND
 
 class champion:
 
-    def __init__(self, blasses: [int], origin: int, cost: int):
+    def __init__(self, name, blasses: [int], origin: int, cost: int):
+        self.name = name
         self.blass = blasses
         self.origin = origin
         self.cost = cost
@@ -46,5 +47,8 @@ class champion:
 
     def get_cost(self):
         return self.cost
+
+    def get_name(self):
+        return self.name
         
     
