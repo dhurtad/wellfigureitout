@@ -2,6 +2,7 @@
 import urllib.request
 import goody
 import prompt
+from collections import defaultdict
 import json
 
 
@@ -20,12 +21,19 @@ def get_champ_dict() -> dict:
     return json.loads(text)
 
 def fix_unit_name(unit: str) -> str:
+    '''
+    Capitalizes the first letter in a string.
+    '''
     unit = list(unit.lower())
     unit[0] = unit[0].upper()
     unit = ''.join(unit)
     return unit
 
 def find_comp_origins_classes(comp: [str]) -> [str]:
+    '''
+    Returns two lists, one containing the origins and
+    the other the classes of the comp.
+    '''
     origin_list = []
     class_list = []
     for x in comp:
@@ -41,6 +49,17 @@ def find_comp_origins_classes(comp: [str]) -> [str]:
 
     return origin_list, class_list
 
+def count_dict(alist: [str]) -> {str : int}:
+    '''
+    Returns a defaultdict with the string as
+    a key and the number of times the string is
+    in the list the value.
+    '''
+    final_dict = defaultdict(int)
+    for x in alist:
+        final_dict[x] += 1
+
+    return final_dict
 
 if __name__ == '__main__':
     champs = get_champ_dict()
@@ -59,7 +78,10 @@ if __name__ == '__main__':
                     print('This is not a valid unit name')
 
         origins, classes = find_comp_origins_classes(comp)
-        print(origins, classes)
+        origins = count_dict(origins)
+        classes = count_dict(classes)
+
+
 
 
 
