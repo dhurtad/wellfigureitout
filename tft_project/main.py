@@ -25,17 +25,21 @@ def fix_unit_name(unit: str) -> str:
     unit = ''.join(unit)
     return unit
 
-def find_comp_origins(comp: [str]) -> [str]:
-    origin_list = set()
+def find_comp_origins_classes(comp: [str]) -> [str]:
+    origin_list = []
+    class_list = []
     for x in comp:
         unit = fix_unit_name(x)
         origins = get_champ_dict()[unit]['origin']
+        classes = get_champ_dict()[unit]['class']
 
         for origin in origins:
-            if origin not in origin_list:
-                origin_list.add(origin)
+            origin_list.append(origin)
 
-    return origin_list
+        for blass in classes:
+            class_list.append(blass)
+
+    return origin_list, class_list
 
 
 if __name__ == '__main__':
@@ -54,7 +58,9 @@ if __name__ == '__main__':
                 else:
                     print('This is not a valid unit name')
 
-        origins = find_comp_origins(comp)
+        origins, classes = find_comp_origins_classes(comp)
+        print(origins, classes)
+
 
 
 
