@@ -1,12 +1,11 @@
 
 import urllib.request
-import goody
-import prompt
+# import goody
+# import prompt
 from collections import defaultdict
 import json
 
-
-def get_champ_dict(url) -> dict:
+def get_tft_dict(url: str) -> dict:
     '''
     Downloads champion unit data from an api found online and
     returns a dictionary of champion units with their individual
@@ -15,7 +14,7 @@ def get_champ_dict(url) -> dict:
     response = urllib.request.urlopen(url)
     data = response.read()
     response.close()
-    text = data.decode(encoding = 'utf-8')
+    text = data.decode(encoding='utf-8')
 
     return json.loads(text)
 
@@ -37,8 +36,8 @@ def find_comp_origins_classes(comp: [str]) -> [str]:
     class_list = []
     for x in comp:
         unit = fix_unit_name(x)
-        origins = get_champ_dict("https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json")[unit]['origin']
-        classes = get_champ_dict("https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json")[unit]['class']
+        origins = get_tft_dict("https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json")[unit]['origin']
+        classes = get_tft_dict("https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json")[unit]['class']
 
         for origin in origins:
             origin_list.append(origin)
@@ -63,38 +62,14 @@ def count_dict(alist: [str]) -> {str : int}:
 def get_slots(data):
     """
     Returns a dictionary with the number
-    of units required to recieve a bonus
+    of units required to receive a bonus
     in the form of a defaultdict.
     """
     class_dict = defaultdict(list)
     for x in data.keys():
-        for bonuse in data[x]['bonuses']:
-            class_dict[x].append(bonuse['needed'])
+        for bonus in data[x]['bonuses']:
+            class_dict[x].append(bonus['needed'])
     return class_dict
-
-if __name__ == '__main__':
-    champs = get_champ_dict("https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json")
-    class_slots = get_slots(get_champ_dict("https://solomid-resources.s3.amazonaws.com/blitz/tft/data/classes.json"))
-    origin_slots = get_slots(get_champ_dict("https://solomid-resources.s3.amazonaws.com/blitz/tft/data/origins.json"))
-    print(class_slots)
-    print(origin_slots)
-    while True:
-        level = prompt.for_int('Input your current level')
-        comp = []
-
-        for x in range(level):
-            while True:
-                champ = prompt.for_string('Input champ #' + str(x+1))
-                if champ.upper() in [x.upper() for x in champs.keys()]:
-                    comp.append(champ)
-                    break
-
-                else:
-                    print('This is not a valid unit name')
-
-        origins, classes = find_comp_origins_classes(comp)
-        origins = count_dict(origins)
-        classes = count_dict(classes)
 
 
 
