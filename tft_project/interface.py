@@ -11,13 +11,13 @@ ORIGINS_API = "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/origins
 
 if __name__ == '__main__':
     # Execute necessary functions here
-    
+    game_status = True
     champs = main.get_tft_dict(CHAMP_API)
     class_slots = main.get_slots(main.get_tft_dict(CLASSES_API))
     origin_slots = main.get_slots(main.get_tft_dict(ORIGINS_API))
     print(class_slots)
     print(origin_slots)
-    while True:
+    while game_status:
         level = prompt.for_int('Input your current level')
         comp = []
 
@@ -34,3 +34,8 @@ if __name__ == '__main__':
         origins, classes = main.find_comp_origins_classes(comp)
         origins = main.count_dict(origins)
         classes = main.count_dict(classes)
+        game_status_input = prompt.for_string('Has the game ended? (Y or N)')
+        if game_status_input.upper() == 'Y':
+            print('Goodbye!')
+            game_status = False
+        
