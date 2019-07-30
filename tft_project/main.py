@@ -5,6 +5,12 @@ import urllib.request
 from collections import defaultdict
 import json
 
+# Static APIs
+
+CHAMP_API = "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json"
+CLASSES_API = "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/classes.json"
+ORIGINS_API = "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/origins.json"
+
 def get_tft_dict(url: str) -> dict:
     '''
     Downloads champion unit data from an api found online and
