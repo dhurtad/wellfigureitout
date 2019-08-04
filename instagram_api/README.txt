@@ -1,0 +1,1 @@
+install python-instagram using pip
